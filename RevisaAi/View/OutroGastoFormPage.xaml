@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             xmlns:model="clr-namespace:RevisaAi.Model"
+             x:Class="RevisaAi.View.OutroGastoFormPage"
+             x:DataType="vm:COutroGastoFormViewModel"
+             Title="Outro gasto">
+
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="10" Padding="16">
+
+        <Label Grid.Row="0" Text="{Binding Titulo}" Style="{StaticResource Titulo}"/>
+
+        <ScrollView Grid.Row="1">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="*,*" RowSpacing="4" ColumnSpacing="12">
+
+                <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Veículo *"/>
+                <Picker Grid.Row="1" Grid.ColumnSpan="2" Title="Selecione o veículo"
+                        ItemsSource="{Binding Veiculos}"
+                        SelectedItem="{Binding VeiculoSelecionado}"/>
+
+                <Label Grid.Row="2" Grid.ColumnSpan="2" Text="Categoria *"/>
+                <Picker Grid.Row="3" Grid.ColumnSpan="2" Title="Selecione a categoria"
+                        ItemsSource="{Binding Categorias}"
+                        SelectedItem="{Binding Categoria}"/>
+
+                <Label Grid.Row="4" Grid.ColumnSpan="2" Text="Descrição *"/>
+                <Entry Grid.Row="5" Grid.ColumnSpan="2" Text="{Binding Descricao}"
+                       Placeholder="Ex.: Central multimídia" MaxLength="60"/>
+
+                <Label Grid.Row="6" Grid.Column="0" Text="Data *"/>
+                <Label Grid.Row="6" Grid.Column="1" Text="Valor (R$) *"/>
+                <DatePicker Grid.Row="7" Grid.Column="0" Date="{Binding Data}" Format="dd/MM/yyyy"/>
+                <Entry Grid.Row="7" Grid.Column="1" Text="{Binding Valor}" Placeholder="Ex.: 120,00"
+                       Keyboard="Numeric" MaxLength="10"/>
+
+                <Grid Grid.Row="8" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*">
+                    <CheckBox Grid.Column="0" IsChecked="{Binding Pago}" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Já foi pago (entra nos totais)" VerticalOptions="Center"/>
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+        <!-- Botões de ação -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="8">
+            <Button Grid.Column="0" Text="Salvar" Command="{Binding SalvarCommand}"/>
+            <Button Grid.Column="1" Text="Excluir" Command="{Binding ExcluirCommand}"
+                    IsVisible="{Binding EmEdicao}" Style="{StaticResource BotaoPerigo}"/>
+            <Button Grid.Column="2" Text="Cancelar" Command="{Binding CancelarCommand}"
+                    Style="{StaticResource BotaoSecundario}"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

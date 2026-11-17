@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             xmlns:model="clr-namespace:RevisaAi.Model"
+             x:Class="RevisaAi.View.VeiculosPage"
+             x:DataType="vm:CVeiculosViewModel"
+             Title="Veículos">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="8" Padding="16,12">
+
+        <!-- Filtro em tempo real -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="Buscar por marca, modelo ou placa..."
+                   Text="{Binding Filtro}"/>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+            <CheckBox Grid.Column="0" IsChecked="{Binding SomenteAtivos}" VerticalOptions="Center"/>
+            <Label Grid.Column="1" Text="Mostrar somente ativos" VerticalOptions="Center"/>
+            <Label Grid.Column="2" Text="{Binding Resumo}" VerticalOptions="Center" Style="{StaticResource TextoSuave}"/>
+        </Grid>
+
+        <!-- Lista de veículos: toque em um item para abrir o histórico -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Veiculos}"
+                        SelectionMode="Single"
+                        SelectionChanged="cvVeiculos_SelectionChanged">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum veículo encontrado. Toque em 'Novo veículo' para cadastrar."
+                       Style="{StaticResource TextoSuave}" FontSize="14"
+                       HorizontalTextAlignment="Center" LineBreakMode="WordWrap"
+                       Margin="24,40"/>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:CVeiculo">
+                    <Grid RowDefinitions="Auto,1" Padding="4,0">
+                        <Grid Grid.Row="0" ColumnDefinitions="52,*,Auto" ColumnSpacing="12" Margin="0,10">
+                                <Image Grid.Column="0" Source="{Binding Imagem}"
+                                       HeightRequest="48" WidthRequest="48" VerticalOptions="Center"/>
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Descricao}" Style="{StaticResource ItemTitulo}"/>
+                                    <Label Text="{Binding Detalhe}" Style="{StaticResource TextoSuave}"/>
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2" Text="{Binding Situacao}" Style="{StaticResource MonoDestaque}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        <BoxView Grid.Row="1" Style="{StaticResource Linha}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="3" Text="+ Novo veículo" Command="{Binding NovoCommand}"/>
+
+    </Grid>
+</ContentPage>

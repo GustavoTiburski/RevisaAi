@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             x:Class="RevisaAi.View.SobrePage"
+             x:DataType="vm:CSobreViewModel"
+             Title="Ajustes e sobre">
+
+    <Grid Padding="16">
+        <ScrollView>
+            <VerticalStackLayout Spacing="14">
+
+                <!-- Escolha do tema -->
+                <Border Style="{StaticResource Cartao}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Aparência" Style="{StaticResource TituloSecao}"/>
+                        <VerticalStackLayout RadioButtonGroup.GroupName="tema">
+                            <RadioButton Content="Automático (segue o aparelho)"
+                                         IsChecked="{Binding EhAutomatico}"/>
+                            <RadioButton Content="Tema claro" IsChecked="{Binding EhClaro}"/>
+                            <RadioButton Content="Tema escuro" IsChecked="{Binding EhEscuro}"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Sobre o aplicativo -->
+                <Border Style="{StaticResource Cartao}">
+                    <VerticalStackLayout Spacing="6">
+                        <Image Source="logo.png" HeightRequest="96" WidthRequest="96"
+                               HorizontalOptions="Center"/>
+                        <Label Text="RevisaAi" Style="{StaticResource Titulo}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Versão 1.0" Style="{StaticResource TextoSuave}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Aplicativo para controle de manutenção de veículos: cadastro de veículos, manutenções, abastecimentos, outros gastos, lembretes e relatórios."
+                               HorizontalTextAlignment="Center" Margin="0,8,0,0"/>
+                        <Label Text="Trabalho Final - Desenvolvimento Mobile"
+                               Style="{StaticResource TituloSecao}"
+                               HorizontalOptions="Center" Margin="0,12,0,0"/>
+                        <Label Text="URI - Campus de Erechim" HorizontalOptions="Center"/>
+                        <Label Text="Aluno: Gustavo Henrique Castaldi Tiburski" HorizontalOptions="Center"/>
+                        <Label Text="Tecnologias: .NET MAUI, SQLite, MVVM" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

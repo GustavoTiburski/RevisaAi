@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="RevisaAi.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:view="clr-namespace:RevisaAi.View"
+    Title="RevisaAi"
+    FlyoutBehavior="Flyout">
+
+    <!-- Cabeçalho do menu lateral (Flyout) -->
+    <Shell.FlyoutHeader>
+        <Grid RowDefinitions="*,3" BackgroundColor="#0B0C0E">
+            <Grid Grid.Row="0" ColumnDefinitions="52,*" ColumnSpacing="12" Padding="16"
+                  HeightRequest="96">
+                <Image Grid.Column="0" Source="logo.png" HeightRequest="52" WidthRequest="52"
+                       VerticalOptions="Center"/>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label Text="RevisaAi" TextColor="#E8E6E1" FontFamily="BarlowCondBold"
+                           FontSize="26"/>
+                    <Label Text="Painel do seu veículo" TextColor="#A3A39C" FontSize="13"/>
+                </VerticalStackLayout>
+            </Grid>
+            <!-- Filete âmbar embaixo do cabeçalho -->
+            <BoxView Grid.Row="1" Color="#F5A524"/>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Painel">
+        <ShellContent Title="Painel"
+                      ContentTemplate="{DataTemplate view:HomePage}"
+                      Route="home" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Veículos">
+        <ShellContent Title="Veículos"
+                      ContentTemplate="{DataTemplate view:VeiculosPage}"
+                      Route="veiculos" />
+    </FlyoutItem>
+
+    <!-- Registros: três abas (Tabbed) -->
+    <FlyoutItem Title="Registros">
+        <ShellContent Title="Manutenções"
+                      ContentTemplate="{DataTemplate view:ManutencoesPage}"
+                      Route="manutencoes" />
+        <ShellContent Title="Abastecimentos"
+                      ContentTemplate="{DataTemplate view:AbastecimentosPage}"
+                      Route="abastecimentos" />
+        <ShellContent Title="Outros gastos"
+                      ContentTemplate="{DataTemplate view:OutrosGastosPage}"
+                      Route="outrosgastos" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Lembretes">
+        <ShellContent Title="Lembretes"
+                      ContentTemplate="{DataTemplate view:LembretesPage}"
+                      Route="lembretes" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Relatórios">
+        <ShellContent Title="Relatórios"
+                      ContentTemplate="{DataTemplate view:RelatoriosPage}"
+                      Route="relatorios" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Ajustes e sobre">
+        <ShellContent Title="Ajustes e sobre"
+                      ContentTemplate="{DataTemplate view:SobrePage}"
+                      Route="sobre" />
+    </FlyoutItem>
+
+</Shell>

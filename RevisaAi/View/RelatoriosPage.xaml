@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             x:Class="RevisaAi.View.RelatoriosPage"
+             x:DataType="vm:CRelatoriosViewModel"
+             Title="Relatórios">
+
+    <Grid RowDefinitions="Auto,1,*">
+
+        <!-- Filtros: ano, mês e veículo -->
+        <Grid Grid.Row="0" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*"
+              RowSpacing="2" ColumnSpacing="12" Padding="20,10,20,8">
+            <Label Grid.Row="0" Grid.Column="0" Text="Ano" Style="{StaticResource TextoSuave}"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="Mês" Style="{StaticResource TextoSuave}"/>
+            <Picker Grid.Row="1" Grid.Column="0"
+                    ItemsSource="{Binding Anos}"
+                    SelectedIndex="{Binding AnoIndice}"/>
+            <Picker Grid.Row="1" Grid.Column="1"
+                    ItemsSource="{Binding Meses}"
+                    SelectedIndex="{Binding MesIndice}"/>
+            <Picker Grid.Row="2" Grid.ColumnSpan="2"
+                    ItemsSource="{Binding VeiculosFiltro}"
+                    SelectedIndex="{Binding VeiculoIndice}"/>
+        </Grid>
+
+        <BoxView Grid.Row="1" Style="{StaticResource Linha}"/>
+
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout>
+
+                <!-- Total do período -->
+                <VerticalStackLayout Padding="20,16" Spacing="2">
+                    <Label Text="{Binding TituloPeriodo}" Style="{StaticResource TextoSuave}"/>
+                    <Label Text="{Binding TotalPeriodo}" Style="{StaticResource Mono}" FontSize="34"/>
+                </VerticalStackLayout>
+
+                <BoxView Style="{StaticResource Linha}"/>
+
+                <!-- Mostradores -->
+                <Grid ColumnDefinitions="*,1,*,1,*">
+                    <VerticalStackLayout Grid.Column="0" Padding="20,14,6,14" Spacing="4">
+                        <Label Text="Registros" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                        <Label Text="{Binding QuantidadeRegistros}" Style="{StaticResource MonoGrande}"/>
+                    </VerticalStackLayout>
+                    <BoxView Grid.Column="1" Style="{StaticResource LinhaVertical}"/>
+                    <VerticalStackLayout Grid.Column="2" Padding="14,14,6,14" Spacing="4">
+                        <Label Text="Abastecido" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                        <Label Text="{Binding Litros}" Style="{StaticResource MonoGrande}"/>
+                    </VerticalStackLayout>
+                    <BoxView Grid.Column="3" Style="{StaticResource LinhaVertical}"/>
+                    <VerticalStackLayout Grid.Column="4" Padding="14,14,6,14" Spacing="4">
+                        <Label Text="Preço médio/L" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                        <Label Text="{Binding PrecoMedioLitro}" Style="{StaticResource MonoGrande}"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <BoxView Style="{StaticResource Linha}"/>
+
+                <!-- Gastos por categoria -->
+                <VerticalStackLayout Padding="20,14" Spacing="10">
+                    <Label Text="Gastos por categoria" Style="{StaticResource TituloSecao}"/>
+                    <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Categorias}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CItemRelatorio">
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto,44"
+                                      RowSpacing="4" ColumnSpacing="8">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Nome}" FontSize="15"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding ValorTexto}"
+                                           Style="{StaticResource Mono}"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding PercentualTexto}"
+                                           Style="{StaticResource MonoSuave}"
+                                           HorizontalTextAlignment="End" VerticalOptions="Center"/>
+                                    <ProgressBar Grid.Row="1" Grid.ColumnSpan="3"
+                                                 Progress="{Binding Proporcao}"
+                                                 ProgressColor="{Binding Cor}"
+                                                 HeightRequest="8"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <BoxView Style="{StaticResource Linha}"/>
+
+                <!-- Evolução mês a mês -->
+                <VerticalStackLayout Padding="20,14,20,20" Spacing="8">
+                    <Label Text="{Binding TituloEvolucao}" Style="{StaticResource TituloSecao}"/>
+                    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding MesesDoAno}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CItemRelatorio">
+                                <Grid ColumnDefinitions="34,*,96" ColumnSpacing="8">
+                                    <Label Grid.Column="0" Text="{Binding Nome}"
+                                           Style="{StaticResource MonoSuave}" VerticalOptions="Center"/>
+                                    <ProgressBar Grid.Column="1"
+                                                 Progress="{Binding Proporcao}"
+                                                 ProgressColor="{Binding Cor}"
+                                                 HeightRequest="8" VerticalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding ValorTexto}"
+                                           Style="{StaticResource MonoSuave}"
+                                           HorizontalTextAlignment="End" VerticalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <Label Text="A barra em âmbar indica o mês selecionado no filtro."
+                           Style="{StaticResource TextoSuave}" FontSize="12"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

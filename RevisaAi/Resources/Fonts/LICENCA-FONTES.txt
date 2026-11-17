@@ -1,0 +1,4 @@
+Fontes usadas no aplicativo (licença SIL Open Font License 1.1):
+- Barlow e Barlow Condensed - Copyright The Barlow Project Authors (https://github.com/jpt/barlow)
+- IBM Plex Mono - Copyright IBM Corp. (https://github.com/IBM/plex)
+Texto completo da licença: https://openfontlicense.org

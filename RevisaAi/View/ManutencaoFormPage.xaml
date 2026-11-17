@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             xmlns:model="clr-namespace:RevisaAi.Model"
+             x:Class="RevisaAi.View.ManutencaoFormPage"
+             x:DataType="vm:CManutencaoFormViewModel"
+             Title="Manutenção">
+
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="10" Padding="16">
+
+        <Label Grid.Row="0" Text="{Binding Titulo}" Style="{StaticResource Titulo}"/>
+
+        <ScrollView Grid.Row="1">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="*,*" RowSpacing="4" ColumnSpacing="12">
+
+                <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Veículo *"/>
+                <Picker Grid.Row="1" Grid.ColumnSpan="2" Title="Selecione o veículo"
+                        ItemsSource="{Binding Veiculos}"
+                        SelectedItem="{Binding VeiculoSelecionado}"/>
+
+                <Label Grid.Row="2" Grid.ColumnSpan="2" Text="Tipo de serviço *"/>
+                <Picker Grid.Row="3" Grid.ColumnSpan="2" Title="Selecione o serviço"
+                        ItemsSource="{Binding TiposServico}"
+                        SelectedItem="{Binding TipoServico}"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Text="Data *"/>
+                <Label Grid.Row="4" Grid.Column="1" Text="Km *"/>
+                <DatePicker Grid.Row="5" Grid.Column="0" Date="{Binding Data}" Format="dd/MM/yyyy"/>
+                <Entry Grid.Row="5" Grid.Column="1" Text="{Binding Km}" Placeholder="Ex.: 152000"
+                       Keyboard="Numeric" MaxLength="7"/>
+
+                <Label Grid.Row="6" Grid.ColumnSpan="2" Text="Valor (R$) *"/>
+                <Entry Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding Valor}" Placeholder="Ex.: 250,00"
+                       Keyboard="Numeric" MaxLength="10"/>
+
+                <Grid Grid.Row="8" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*">
+                    <CheckBox Grid.Column="0" IsChecked="{Binding FeitaEmOficina}" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Feita em oficina" VerticalOptions="Center"/>
+                </Grid>
+
+                <Label Grid.Row="9" Grid.ColumnSpan="2" Text="Nome da oficina"/>
+                <Entry Grid.Row="10" Grid.ColumnSpan="2" Text="{Binding Oficina}"
+                       Placeholder="Ex.: Auto Center Silva" MaxLength="50"
+                       IsEnabled="{Binding FeitaEmOficina}"/>
+
+                <Label Grid.Row="11" Grid.ColumnSpan="2" Text="Observação"/>
+                <Editor Grid.Row="12" Grid.ColumnSpan="2" Text="{Binding Observacao}"
+                        Placeholder="Peças trocadas, garantia..." HeightRequest="80" MaxLength="200"/>
+            </Grid>
+        </ScrollView>
+
+        <!-- Botões de ação -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="8">
+            <Button Grid.Column="0" Text="Salvar" Command="{Binding SalvarCommand}"/>
+            <Button Grid.Column="1" Text="Excluir" Command="{Binding ExcluirCommand}"
+                    IsVisible="{Binding EmEdicao}" Style="{StaticResource BotaoPerigo}"/>
+            <Button Grid.Column="2" Text="Cancelar" Command="{Binding CancelarCommand}"
+                    Style="{StaticResource BotaoSecundario}"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

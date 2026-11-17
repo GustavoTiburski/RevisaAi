@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             x:Class="RevisaAi.View.VeiculoHistoricoPage"
+             x:DataType="vm:CVeiculoHistoricoViewModel"
+             Title="Histórico do veículo">
+
+    <Grid RowDefinitions="Auto,1,Auto,1,Auto,1,Auto,*,Auto">
+
+        <!-- Dados do veículo -->
+        <Grid Grid.Row="0" ColumnDefinitions="52,*,Auto" ColumnSpacing="12" Padding="20,14">
+            <Image Grid.Column="0" Source="{Binding Imagem}" HeightRequest="48" WidthRequest="48"
+                   VerticalOptions="Center"/>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label Text="{Binding Descricao}" Style="{StaticResource Titulo}" FontSize="22"/>
+                <Label Text="{Binding Detalhe}" Style="{StaticResource TextoSuave}"/>
+            </VerticalStackLayout>
+            <Label Grid.Column="2" Text="{Binding Situacao}" Style="{StaticResource MonoDestaque}"
+                   VerticalOptions="Center"/>
+        </Grid>
+
+        <BoxView Grid.Row="1" Style="{StaticResource Linha}"/>
+
+        <!-- Total gasto com o veículo -->
+        <VerticalStackLayout Grid.Row="2" Padding="20,14" Spacing="2">
+            <Label Text="Total gasto com este veículo" Style="{StaticResource TextoSuave}"/>
+            <Label Text="{Binding TotalGeral}" Style="{StaticResource Mono}" FontSize="30"/>
+        </VerticalStackLayout>
+
+        <BoxView Grid.Row="3" Style="{StaticResource Linha}"/>
+
+        <!-- Totais por tipo -->
+        <Grid Grid.Row="4" ColumnDefinitions="*,1,*,1,*">
+            <VerticalStackLayout Grid.Column="0" Padding="20,12,6,12" Spacing="4">
+                <Label Text="Combustível" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                <Label Text="{Binding TotalCombustivel}" Style="{StaticResource Mono}" FontSize="14"/>
+            </VerticalStackLayout>
+            <BoxView Grid.Column="1" Style="{StaticResource LinhaVertical}"/>
+            <VerticalStackLayout Grid.Column="2" Padding="12,12,6,12" Spacing="4">
+                <Label Text="Manutenção" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                <Label Text="{Binding TotalManutencao}" Style="{StaticResource Mono}" FontSize="14"/>
+            </VerticalStackLayout>
+            <BoxView Grid.Column="3" Style="{StaticResource LinhaVertical}"/>
+            <VerticalStackLayout Grid.Column="4" Padding="12,12,6,12" Spacing="4">
+                <Label Text="Outros" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                <Label Text="{Binding TotalOutros}" Style="{StaticResource Mono}" FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <BoxView Grid.Row="5" Style="{StaticResource Linha}"/>
+
+        <Label Grid.Row="6" Text="Histórico de registros" Style="{StaticResource TituloSecao}"
+               Margin="20,14,20,2"/>
+
+        <!-- Todos os registros do veículo, do mais recente para o mais antigo -->
+        <CollectionView Grid.Row="7" Margin="16,0"
+                        ItemsSource="{Binding Itens}"
+                        SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="Este veículo ainda não tem registros."
+                       Style="{StaticResource TextoSuave}" FontSize="14"
+                       HorizontalTextAlignment="Center" LineBreakMode="WordWrap"
+                       Margin="24,40"/>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CItemHistorico">
+                    <Grid RowDefinitions="Auto,1" Padding="4,0">
+                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,10">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                <Label Text="{Binding Titulo}" Style="{StaticResource ItemTitulo}"/>
+                                <Label Text="{Binding Subtitulo}" Style="{StaticResource TextoSuave}"/>
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1" Text="{Binding ValorTexto}"
+                                   Style="{StaticResource Mono}" VerticalOptions="Center"/>
+                        </Grid>
+                        <BoxView Grid.Row="1" Style="{StaticResource Linha}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="8" Padding="16,10">
+            <Button Text="Editar veículo" Command="{Binding EditarCommand}"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

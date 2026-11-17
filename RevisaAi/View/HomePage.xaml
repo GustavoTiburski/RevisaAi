@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             x:Class="RevisaAi.View.HomePage"
+             x:DataType="vm:CHomeViewModel"
+             Title="Painel">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout>
+
+                <!-- Ainda não existe veículo cadastrado -->
+                <VerticalStackLayout IsVisible="{Binding SemVeiculo}" Padding="20,40" Spacing="14">
+                    <Image Source="logo.png" HeightRequest="96" WidthRequest="96"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Bem-vindo ao RevisaAi" Style="{StaticResource Titulo}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Cadastre o seu primeiro veículo para o painel começar a mostrar quilometragem, gastos e avisos."
+                           Style="{StaticResource TextoSuave}" HorizontalTextAlignment="Center"/>
+                    <Button Text="Cadastrar veículo" Command="{Binding IrVeiculosCommand}"/>
+                </VerticalStackLayout>
+
+                <!-- Painel do veículo escolhido -->
+                <VerticalStackLayout IsVisible="{Binding TemVeiculo}">
+
+                    <!-- Seletor de veículo -->
+                    <VerticalStackLayout Padding="20,12,20,4">
+                        <Label Text="Veículo" Style="{StaticResource TextoSuave}"/>
+                        <Picker ItemsSource="{Binding VeiculosNomes}"
+                                SelectedIndex="{Binding VeiculoIndice}"/>
+                    </VerticalStackLayout>
+
+                    <!-- Hodômetro -->
+                    <VerticalStackLayout Padding="20,8,20,18" Spacing="8">
+                        <Label Text="Hodômetro" Style="{StaticResource TextoSuave}"/>
+                        <HorizontalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="6" BindableLayout.ItemsSource="{Binding Digitos}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Border Style="{StaticResource Digito}">
+                                            <Label Text="{Binding .}" Style="{StaticResource DigitoTexto}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </HorizontalStackLayout>
+                            <Label Text="km" Style="{StaticResource TituloSecao}" VerticalOptions="End"
+                                   Margin="2,0,0,4"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <BoxView Style="{StaticResource Linha}"/>
+
+                    <!-- Próxima manutenção -->
+                    <VerticalStackLayout Padding="20,14" Spacing="10">
+                        <Label Text="Próxima manutenção" Style="{StaticResource TextoSuave}"/>
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Label Grid.Column="0" Text="{Binding ProximaTitulo}"
+                                   Style="{StaticResource ItemTitulo}" FontSize="16"/>
+                            <Label Grid.Column="1" Text="{Binding ProximaInfo}"
+                                   Style="{StaticResource MonoDestaque}" FontSize="15"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                        <!-- Barra de 20 segmentos, montada no code-behind -->
+                        <Grid x:Name="grMedidor" IsVisible="{Binding TemMedidor}"
+                              HeightRequest="18" ColumnSpacing="3"/>
+                        <Grid IsVisible="{Binding TemMedidor}" ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="{Binding MedidorInicio}"
+                                   Style="{StaticResource MonoSuave}" FontSize="12"/>
+                            <Label Grid.Column="1" Text="{Binding MedidorFim}"
+                                   Style="{StaticResource MonoSuave}" FontSize="12"/>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <BoxView Style="{StaticResource Linha}"/>
+
+                    <!-- Mostradores -->
+                    <Grid ColumnDefinitions="*,1,*,1,*">
+                        <VerticalStackLayout Grid.Column="0" Padding="20,14,6,14" Spacing="4">
+                            <Label Text="Gasto no mês" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                            <Label Text="{Binding GastoMes}" Style="{StaticResource MonoGrande}"/>
+                        </VerticalStackLayout>
+                        <BoxView Grid.Column="1" Style="{StaticResource LinhaVertical}"/>
+                        <VerticalStackLayout Grid.Column="2" Padding="14,14,6,14" Spacing="4">
+                            <Label Text="Consumo médio" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                            <Label Text="{Binding ConsumoMedio}" Style="{StaticResource MonoGrande}"/>
+                        </VerticalStackLayout>
+                        <BoxView Grid.Column="3" Style="{StaticResource LinhaVertical}"/>
+                        <VerticalStackLayout Grid.Column="4" Padding="14,14,6,14" Spacing="4">
+                            <Label Text="Preço do litro" Style="{StaticResource TextoSuave}" FontSize="12"/>
+                            <Label Text="{Binding PrecoLitro}" Style="{StaticResource MonoGrande}"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <BoxView Style="{StaticResource Linha}"/>
+
+                    <!-- Avisos (lembretes pendentes) -->
+                    <VerticalStackLayout Padding="20,14,20,6">
+                        <Label Text="Avisos" Style="{StaticResource TituloSecao}"/>
+                        <Label Text="Nenhum aviso para este veículo." IsVisible="{Binding SemAvisos}"
+                               Style="{StaticResource TextoSuave}" Margin="0,8"/>
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Avisos}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:CItemAviso">
+                                    <Grid RowDefinitions="Auto,1">
+                                        <Grid Grid.Row="0" ColumnDefinitions="12,*,Auto" ColumnSpacing="12"
+                                              MinimumHeightRequest="44">
+                                            <!-- Luz acesa: atrasado -->
+                                            <Border Grid.Column="0" IsVisible="{Binding Atrasado}"
+                                                    WidthRequest="12" HeightRequest="12"
+                                                    StrokeShape="Ellipse" StrokeThickness="0"
+                                                    BackgroundColor="{StaticResource Ambar}"
+                                                    VerticalOptions="Center"/>
+                                            <!-- Luz apagada: no prazo -->
+                                            <Border Grid.Column="0" IsVisible="{Binding NoPrazo}"
+                                                    WidthRequest="12" HeightRequest="12"
+                                                    StrokeShape="Ellipse" StrokeThickness="2"
+                                                    Stroke="{AppThemeBinding Light={StaticResource TextoSuave}, Dark={StaticResource TextoSuaveEscuro}}"
+                                                    BackgroundColor="Transparent"
+                                                    VerticalOptions="Center"/>
+                                            <Label Grid.Column="1" Text="{Binding Descricao}"
+                                                   FontSize="15" VerticalOptions="Center"/>
+                                            <Label Grid.Column="2" Text="{Binding Info}"
+                                                   Style="{StaticResource MonoDestaque}"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                        <BoxView Grid.Row="1" Style="{StaticResource Linha}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Últimos lançamentos -->
+                    <VerticalStackLayout Padding="20,10,20,16">
+                        <Label Text="Últimos lançamentos" Style="{StaticResource TituloSecao}"/>
+                        <Label Text="Nenhum lançamento para este veículo."
+                               IsVisible="{Binding SemLancamentos}"
+                               Style="{StaticResource TextoSuave}" Margin="0,8"/>
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Lancamentos}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:CItemHistorico">
+                                    <Grid RowDefinitions="Auto,1">
+                                        <Grid Grid.Row="0" ColumnDefinitions="48,*,Auto" ColumnSpacing="10"
+                                              MinimumHeightRequest="44">
+                                            <Label Grid.Column="0" Text="{Binding Subtitulo}"
+                                                   Style="{StaticResource MonoSuave}"
+                                                   VerticalOptions="Center"/>
+                                            <Label Grid.Column="1" Text="{Binding Titulo}"
+                                                   FontSize="15" VerticalOptions="Center"
+                                                   LineBreakMode="TailTruncation"/>
+                                            <Label Grid.Column="2" Text="{Binding ValorTexto}"
+                                                   Style="{StaticResource Mono}"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                        <BoxView Grid.Row="1" Style="{StaticResource Linha}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Atalhos de navegação -->
+        <Grid Grid.Row="1" RowDefinitions="1,Auto">
+            <BoxView Grid.Row="0" Style="{StaticResource Linha}"/>
+            <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" ColumnSpacing="6" Padding="12,10">
+                <Button Grid.Column="0" Text="Veículos" Command="{Binding IrVeiculosCommand}"
+                        Style="{StaticResource BotaoSecundario}" Padding="2,10" FontSize="13"/>
+                <Button Grid.Column="1" Text="Registros" Command="{Binding IrRegistrosCommand}"
+                        Style="{StaticResource BotaoSecundario}" Padding="2,10" FontSize="13"/>
+                <Button Grid.Column="2" Text="Lembretes" Command="{Binding IrLembretesCommand}"
+                        Style="{StaticResource BotaoSecundario}" Padding="2,10" FontSize="13"/>
+                <Button Grid.Column="3" Text="Relatórios" Command="{Binding IrRelatoriosCommand}"
+                        Padding="2,10" FontSize="13"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</ContentPage>

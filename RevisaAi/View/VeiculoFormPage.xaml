@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RevisaAi.ModelView"
+             x:Class="RevisaAi.View.VeiculoFormPage"
+             x:DataType="vm:CVeiculoFormViewModel"
+             Title="Veículo">
+
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="10" Padding="16">
+
+        <!-- Cabeçalho: imagem muda conforme o tipo escolhido -->
+        <Grid Grid.Row="0" ColumnDefinitions="56,*" ColumnSpacing="12">
+            <Image Grid.Column="0" Source="{Binding ImagemTipo}" HeightRequest="56" WidthRequest="56"/>
+            <Label Grid.Column="1" Text="{Binding Titulo}" Style="{StaticResource Titulo}"
+                   VerticalOptions="Center"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="*,*" RowSpacing="4" ColumnSpacing="12">
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Marca *"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="Modelo *"/>
+                <Entry Grid.Row="1" Grid.Column="0" Text="{Binding Marca}" Placeholder="Ex.: Fiat" MaxLength="30"/>
+                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Modelo}" Placeholder="Ex.: Palio" MaxLength="40"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Placa *"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="Ano *"/>
+                <Entry Grid.Row="3" Grid.Column="0" Text="{Binding Placa}" Placeholder="ABC1D23" MaxLength="8"/>
+                <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Ano}" Placeholder="Ex.: 2008"
+                       Keyboard="Numeric" MaxLength="4"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Text="Km atual *"/>
+                <Label Grid.Row="4" Grid.Column="1" Text="Combustível *"/>
+                <Entry Grid.Row="5" Grid.Column="0" Text="{Binding KmAtual}" Placeholder="Ex.: 150000"
+                       Keyboard="Numeric" MaxLength="7"/>
+                <Picker Grid.Row="5" Grid.Column="1" Title="Selecione"
+                        ItemsSource="{Binding Combustiveis}"
+                        SelectedItem="{Binding Combustivel}"/>
+
+                <Label Grid.Row="6" Grid.ColumnSpan="2" Text="Tipo de veículo" Margin="0,8,0,0"/>
+                <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="2" Spacing="6"
+                                       RadioButtonGroup.GroupName="tipoVeiculo">
+                    <RadioButton Content="Carro" IsChecked="{Binding EhCarro}"/>
+                    <RadioButton Content="Moto" IsChecked="{Binding EhMoto}"/>
+                    <RadioButton Content="Caminhonete" IsChecked="{Binding EhCaminhonete}"/>
+                </HorizontalStackLayout>
+
+                <Grid Grid.Row="8" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*">
+                    <CheckBox Grid.Column="0" IsChecked="{Binding Ativo}" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Veículo ativo (em uso)" VerticalOptions="Center"/>
+                </Grid>
+
+                <Label Grid.Row="9" Grid.ColumnSpan="2" Text="* campos obrigatórios" FontSize="11"/>
+            </Grid>
+        </ScrollView>
+
+        <!-- Botões de ação -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="8">
+            <Button Grid.Column="0" Text="Salvar" Command="{Binding SalvarCommand}"/>
+            <Button Grid.Column="1" Text="Excluir" Command="{Binding ExcluirCommand}"
+                    IsVisible="{Binding EmEdicao}" Style="{StaticResource BotaoPerigo}"/>
+            <Button Grid.Column="2" Text="Cancelar" Command="{Binding CancelarCommand}"
+                    Style="{StaticResource BotaoSecundario}"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>
