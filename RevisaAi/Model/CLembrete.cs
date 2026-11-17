@@ -1,3 +1,4 @@
+using System.Globalization;
 using SQLite;
 
 namespace RevisaAi.Model
@@ -5,6 +6,8 @@ namespace RevisaAi.Model
     // Tabela de lembretes de próximas manutenções
     public class CLembrete
     {
+        private static readonly CultureInfo Brasil = new("pt-BR");
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
@@ -35,7 +38,7 @@ namespace RevisaAi.Model
                 string texto = $"{VeiculoNome}  •  até {DataAlvo:dd/MM/yyyy}";
 
                 if (KmAlvo > 0)
-                    texto += $"  •  aos {KmAlvo:N0} km";
+                    texto += $"  •  aos {KmAlvo.ToString("N0", Brasil)} km";
 
                 return texto;
             }

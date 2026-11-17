@@ -38,7 +38,7 @@ namespace RevisaAi.Model
         public string Titulo => $"{Litros.ToString("N2", Brasil)} L de {Combustivel}";
 
         [Ignore]
-        public string Detalhe => $"{VeiculoNome}  •  {Data:dd/MM/yyyy}  •  {Km:N0} km";
+        public string Detalhe => $"{VeiculoNome}  •  {Data:dd/MM/yyyy}  •  {Km.ToString("N0", Brasil)} km";
 
         [Ignore]
         public string Tanque => TanqueCheio ? "Tanque cheio" : "Abastecimento parcial";

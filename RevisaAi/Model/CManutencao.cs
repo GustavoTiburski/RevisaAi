@@ -37,7 +37,7 @@ namespace RevisaAi.Model
         public string VeiculoNome { get; set; } = string.Empty;
 
         [Ignore]
-        public string Detalhe => $"{VeiculoNome}  •  {Data:dd/MM/yyyy}  •  {Km:N0} km";
+        public string Detalhe => $"{VeiculoNome}  •  {Data:dd/MM/yyyy}  •  {Km.ToString("N0", Brasil)} km";
 
         [Ignore]
         public string Local => FeitaEmOficina ? $"Oficina: {Oficina}" : "Feita em casa";

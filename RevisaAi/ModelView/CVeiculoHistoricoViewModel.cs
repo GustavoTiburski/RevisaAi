@@ -107,7 +107,7 @@ namespace RevisaAi.ModelView
                     {
                         Data = m.Data,
                         Titulo = m.TipoServico,
-                        Subtitulo = $"Manutenção  •  {m.Data:dd/MM/yyyy}  •  {m.Km:N0} km",
+                        Subtitulo = $"Manutenção  •  {m.Data:dd/MM/yyyy}  •  {m.Km.ToString("N0", Brasil)} km",
                         ValorTexto = m.ValorTexto
                     });
                 }
@@ -118,7 +118,7 @@ namespace RevisaAi.ModelView
                     {
                         Data = a.Data,
                         Titulo = a.Titulo,
-                        Subtitulo = $"Abastecimento  •  {a.Data:dd/MM/yyyy}  •  {a.Km:N0} km",
+                        Subtitulo = $"Abastecimento  •  {a.Data:dd/MM/yyyy}  •  {a.Km.ToString("N0", Brasil)} km",
                         ValorTexto = a.ValorTexto
                     });
                 }

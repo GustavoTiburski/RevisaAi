@@ -1,3 +1,4 @@
+using System.Globalization;
 using SQLite;
 
 namespace RevisaAi.Model
@@ -5,6 +6,8 @@ namespace RevisaAi.Model
     // Tabela de veículos
     public class CVeiculo
     {
+        private static readonly CultureInfo Brasil = new("pt-BR");
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
@@ -35,7 +38,7 @@ namespace RevisaAi.Model
         public string Descricao => $"{Marca} {Modelo}";
 
         [Ignore]
-        public string Detalhe => $"{Placa}  •  {Ano}  •  {KmAtual:N0} km  •  {Combustivel}";
+        public string Detalhe => $"{Placa}  •  {Ano}  •  {KmAtual.ToString("N0", Brasil)} km  •  {Combustivel}";
 
         [Ignore]
         public string Situacao => Ativo ? "Ativo" : "Inativo";
